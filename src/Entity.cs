@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleEcs
+﻿namespace SimpleEcs
 {
     public class Entity
     {
         // ID
-        private int m_id;
-        public int ID { get { return m_id; } }
+        private int m_Id;
+        public int ID => m_Id;
 
         // Name use for debug
-        private string m_name;
-        public string Name { get { return m_name; } }
+        private string m_Name;
+        public string Name => m_Name;
 
         // belong to the world
-        private World? m_world;
-        public World? World { get { return m_world; } }
+        private World? m_World;
+        public World? World => m_World;
         
         // A dict to save Entity's all Components, key is component id, value is component object
         private Dictionary<int, ComponentBase> m_ComponentDict;
@@ -32,16 +24,16 @@ namespace SimpleEcs
         // Constructor, make sure id is unique
         public Entity(int id, string name ="", in World? world = null)
         {
-            m_id = id;
+            m_Id = id;
             if (string.IsNullOrEmpty(name))
             {
-                m_name = $"Entity-{id}";
+                m_Name = $"Entity-{id}";
             }
             else
             {
-                m_name = name;
+                m_Name = name;
             }
-            m_world = world;
+            m_World = world;
             
             m_ComponentDict = new Dictionary<int, ComponentBase>();
         }
@@ -85,7 +77,7 @@ namespace SimpleEcs
             return m_ComponentDict.ContainsKey(componentId);
         }
 
-        public bool HasComponents(int[] componentIds)
+        public bool HasComponents(IEnumerable<int> componentIds)
         {
             foreach(int componentId in componentIds)
             {
@@ -99,7 +91,7 @@ namespace SimpleEcs
 
         public override int GetHashCode()
         {
-            return m_id;
+            return m_Id;
         }
 
     }

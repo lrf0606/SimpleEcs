@@ -1,21 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using SimpleEcs;
+﻿using SimpleEcs;
 using MyTest;
-
-
 
 Test.Func();
 
+
 namespace MyTest
 {
-
-
     public class Test
     {
         public static void Func()
         {
-            World world = new World();
+            var world = new World();
             world.RegisterSystem(new MoveSystem());
             world.RegisterSystem(new PosSystem());
             world.RegisterSystem(new SpeedSystem());
@@ -48,9 +43,9 @@ namespace MyTest
 
     class MoveSystem : EntityUpdateSystemBase
     {
-        public override int[] Matcher()
+        public override List<int> Matcher()
         {
-            return new int[1] { EcsUtil.GetComponentId<MoveComponent>() };
+            return new List<int>() { EcsUtil.GetComponentId<MoveComponent>() };
         }
 
         public override void Update(World world, Entity entity)
@@ -61,9 +56,9 @@ namespace MyTest
 
     class PosSystem : EntityFixedUpdateSystemBase
     {
-        public override int[] Matcher()
+        public override List<int> Matcher()
         {
-            return new int[1] { EcsUtil.GetComponentId<PosComponent>() };
+            return new List<int>() { EcsUtil.GetComponentId<PosComponent>() };
         }
 
         public override void Update(World world, Entity entity)
@@ -75,9 +70,9 @@ namespace MyTest
 
     class SpeedSystem : EntityLateUpdateSystemBase
     {
-        public override int[] Matcher()
+        public override List<int> Matcher()
         {
-            return new int[2] { EcsUtil.GetComponentId<MoveComponent>(), EcsUtil.GetComponentId<PosComponent>() };
+            return new List<int>() { EcsUtil.GetComponentId<MoveComponent>(), EcsUtil.GetComponentId<PosComponent>() };
         }
 
         public override void Update(World world, Entity entity)

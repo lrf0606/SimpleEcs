@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleEcs
+﻿namespace SimpleEcs
 {
-    public class ComponentBase
+    public abstract class ComponentBase
     {
- 
+        
     }
 
     internal class CompoentIdData
@@ -19,15 +13,15 @@ namespace SimpleEcs
 
     public class ComponentIdHelper<TCompnent>
     {
-        // must be static, every TCompnent has a static field
-        private static int m_componentId = CompoentIdData.COMPONENT_ID_START; 
+        // every TCompnent has a static field as ComponentId
+        private static int m_ComponentId = CompoentIdData.COMPONENT_ID_START; 
         public static int GetCompoentId()
         {
-            if (m_componentId == CompoentIdData.COMPONENT_ID_START)
+            if (m_ComponentId == CompoentIdData.COMPONENT_ID_START)
             {
-                m_componentId = ++CompoentIdData.CUR_COMPONENT_ID;
+                m_ComponentId = ++CompoentIdData.CUR_COMPONENT_ID;
             }
-            return m_componentId;
+            return m_ComponentId;
         }
     }
 

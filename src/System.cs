@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleEcs
+﻿namespace SimpleEcs
 {
     internal enum SystemTypeEnum
     {
@@ -16,7 +10,7 @@ namespace SimpleEcs
     public abstract class SystemBase
     {
         public abstract int GetSystemType();
-        public abstract int[] Matcher();
+        public abstract List<int> Matcher();
         public abstract void Update(World world, Entity entity);
     }
 
@@ -46,38 +40,37 @@ namespace SimpleEcs
 
     internal struct SystemInfo
     {
-        public SystemBase System; // 绑定的系统
-        public int[] Matcher; // 系统的匹配组件
-        public HashSet<Entity> EntitySet; // 系统关注的实体
+        private SystemBase m_System; // 绑定的系统
+        private List<int> m_Matcher; // 系统的匹配组件
+        private HashSet<Entity> m_EntitySet; // 系统关注的实体
+
+        public IEnumerable<int> Matchers => m_Matcher;
 
         public SystemInfo(SystemBase system)
         {
-            System = system;
-            Matcher = system.Matcher();
-            EntitySet = new HashSet<Entity>();
+            m_System = system;
+            m_Matcher = system.Matcher();
+            m_EntitySet = new HashSet<Entity>();
         }
 
         public void MatchEntity(in Entity entity)
         {
-            if (entity.HasComponents(Matcher))
+            if (entity.HasComponents(m_Matcher))
             {
-                EntitySet.Add(entity);
+                m_EntitySet.Add(entity);
             }
             else
             {
-                EntitySet.Remove(entity);
+                m_EntitySet.Remove(entity);
             }
         }
 
         public void Update(World world)
         {
-            foreach(var entity in EntitySet)
+            foreach(var entity in m_EntitySet)
             {
-                System.Update(world, entity);
+                m_System.Update(world, entity);
             }
         }
     }
-
- 
-
 }
