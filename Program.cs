@@ -1,8 +1,9 @@
 ﻿using SimpleEcs;
 using MyTest;
 
-Test.Func();
+// test
 
+Test.Func();
 
 namespace MyTest
 {
